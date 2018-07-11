@@ -10,11 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private TextInputEditText mName,mEmail;
     private Button mButton;
     private SessionManager mSessionManager;
-    private AlertDialogManager mAlert=new AlertDialogManager();
+    private AlertDialogManager mAlert=new AlertDialogManager();//v1_End
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,30 +25,31 @@ public class LoginActivity extends AppCompatActivity {
         mButton=findViewById(R.id.login_loginBtn);
         mSessionManager=new SessionManager(this);
         Toast.makeText(this, "UserLogin Status:"+mSessionManager.isLoggedIn(), Toast.LENGTH_SHORT).show();
-         mButton.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 String username=mName.getText().toString();
-                  String email=mEmail.getText().toString();
-                       //Check wether the username or password is empty
-                    if(username.trim().length()>0 && email.trim().length()>0){
-                            if(username.equalsIgnoreCase("test") && email.equalsIgnoreCase("test")){
-                                //Creating new session
-                                mSessionManager.createLoginSession(username,email);
-                                  //Redirecting to main activity
-                                Intent i=new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
-                                finish();
-                                }else
-                            {
-                                mAlert.showAlertDialog(LoginActivity.this,"Login Failed","Invalid Username or password",false);
+         mButton.setOnClickListener(this);//v1_End
+    }
 
-                            }
-                    }else{
-                        mAlert.showAlertDialog(LoginActivity.this,"Login Failed","Enter username and/or password",false);
-                    }
 
-             }
-         });
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login_loginBtn:    String username = mName.getText().toString();
+                                                       String email = mEmail.getText().toString();
+                                                       //Check wether the username or password is empty
+                                                       if (username.trim().length() > 0 && email.trim().length() > 0) {
+                                                               if (username.equalsIgnoreCase("test") && email.equalsIgnoreCase("test")) {
+                                                                               //Creating new session
+                                                                                mSessionManager.createLoginSession(username, email);
+                                                                              //Redirecting to main activity
+                                                                               Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                                                                startActivity(i);
+                                                                                 finish();
+                                                                } else {
+                                                                               mAlert.showAlertDialog(LoginActivity.this, "Login Failed", "Invalid Username or password", false);
+
+                                                                          }
+                                                       } else {
+                                                               mAlert.showAlertDialog(LoginActivity.this, "Login Failed", "Enter username and/or password", false);
+                                                                  }
+                                       } //v1_End
     }
 }

@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mName,mEmail;
     private Button mButton;
     private AlertDialogManager mAlert=new AlertDialogManager();
-    private SessionManager mSessionManager;
+    private SessionManager mSessionManager;//v1 end
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +26,11 @@ public class MainActivity extends AppCompatActivity {
         mButton=findViewById(R.id.main_logout_btn);
         mSessionManager=new SessionManager(this);
         mSessionManager.checkLogin();
+
         HashMap<String,String> user=mSessionManager.getUserDetails();
         mName.setText(user.get(KEY_NAME));
         mEmail.setText(user.get(KEY_EMAIL));
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
